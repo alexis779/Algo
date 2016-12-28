@@ -101,4 +101,15 @@ public class PollardRhoPrimeFactorization {
 		}
 	}
 
+	public int exponentSum() {
+		return exponentSum(factors);
+	}
+
+	private int exponentSum(Map<BigInteger, Integer> factors) {
+		int sum = 0;
+		for (int exponent: factors.values() ) {
+			sum += exponent;
+		}
+		return sum;
+	}
 }

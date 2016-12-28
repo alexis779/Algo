@@ -15,9 +15,13 @@ public class BinaryIndexedTree {
     */
     int m;
 
-    BinaryIndexedTree(int m) {
+    public BinaryIndexedTree(int m) {
       count = new int[m+1];
       this.m = m;
+    }
+
+    public void add(int i) {
+        change(i, 1);
     }
 
     /**
@@ -25,7 +29,7 @@ public class BinaryIndexedTree {
      * @param i
      * @param diff
      */
-    void change(int i, int diff) {
+    public void change(int i, int diff) {
     /*
       for (int i = index; i <= m; i++) {
         count[i] += diff;
@@ -41,7 +45,7 @@ public class BinaryIndexedTree {
     * @param  i int
     * @return   int the number of elements which value is <= index
     */
-    int get(int i) {
+    public int get(int i) {
     /*
       if (index < 0) {
         return 0;
@@ -56,7 +60,7 @@ public class BinaryIndexedTree {
       return res;
     }
 
-    void print() {
+    private void print() {
       for (int i = 0 ; i <= m; i++) {
         System.out.print(count[i] + " ");
       }
