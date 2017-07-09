@@ -12,7 +12,7 @@ public class TestSuffixTree {
 		String text = "abababc";
 		String pattern = "text";
 		SuffixTree suffixTree = new SuffixTree(text);
-		//assertEquals(new Integer(text.indexOf(pattern)), suffixTree.match(pattern));
+		assertEquals(new Integer(text.indexOf(pattern)), suffixTree.match(pattern));
 	}
 
 }

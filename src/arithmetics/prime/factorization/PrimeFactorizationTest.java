@@ -9,7 +9,7 @@ import java.util.Map;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class TestPrimeFactorization {
+public class PrimeFactorizationTest {
 
 	@Test
 	public void pollarRho() {

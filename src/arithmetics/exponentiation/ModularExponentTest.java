@@ -3,7 +3,7 @@ package arithmetics.exponentiation;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class TestModularExponent {
+public class ModularExponentTest {
 
 
 	@Test

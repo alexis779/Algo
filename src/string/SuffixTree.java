@@ -71,14 +71,15 @@ public class SuffixTree {
 
 	SuffixTree(String text) {
 	    this.C = text.toCharArray();
-	    buildn2();
+	    buildn3();
 	}
 
 	/**
 	 * Build the suffix tree using the Ukkonen algorithm
 	 * Expand Implicit suffix tree i from 1 to n following suffix links
+	 * Complexity is O(n^2)
 	 */
-	private void buildn2() {
+	private void buildUkkonen() {
 		this.root = new Node(0, -1);
 
 		for (int i = 0; i < C.length; i++) {

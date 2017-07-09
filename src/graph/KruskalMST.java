@@ -1,27 +1,30 @@
 package graph;
-import java.io.File;
-import java.io.PrintWriter;
-import java.util.Arrays;
-import java.util.Random;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Scanner;
 
+/**
+ * Kruskal algorithm to find a Minimal Spanning Tree on an undirected graph.
+ *
+ */
 public class KruskalMST {
 	class Edge implements Comparable<Edge> {
-		int x, y, r;
+		int x, y, w;
 		
 		Edge(int x, int y, int r) {
 			this.x = x;
 			this.y = y;
-			this.r = r;
+			this.w = r;
 		}
 
 		public int compareTo(Edge edge) {
-			return r - edge.r;
+			return w - edge.w;
 		}
 		
 		@Override
 		public String toString() {
-			return x + " " + y + " " + r;
+			return String.format("(%d-%d) (%d)", x, y, w);
 		}
 	}
 	
@@ -29,10 +32,12 @@ public class KruskalMST {
 	 * Disjoint-Set
 	 */
 	class Node {
+		int id;
 		Node parent;
 		int rank;
 		
-		Node() {
+		Node(int id) {
+			this.id = id;
 			this.parent = this;
 			this.rank = 0;
 		}
@@ -54,21 +59,35 @@ public class KruskalMST {
 				this.rank++;
 			}
 		}
-	}
 		
-	int N, M;
-	int j;
-	Edge[] edges;
-	
+		@Override
+		public String toString() {
+			return String.format("%d", id);
+		}
+	}
+
+	/**
+	 * Number of vertices.
+	 */
+	int N;
+
+	/**
+	 * Number of edges.
+	 */
+	int M;
+
+	/**
+	 * List of edges.
+	 */
+	List<Edge> edges;
+
 	public KruskalMST(int N, int M) {
 		this.N = N;
 		this.M = M;
-		this.j = 0;
-		edges = new Edge[M];
+		edges = new ArrayList<>(M);
 	}
 
 	public static void main(String[] args) throws Exception {
-		long start = System.currentTimeMillis();
 		Scanner scanner = new Scanner(System.in);
 		int N = scanner.nextInt();
 		int M = scanner.nextInt();
@@ -76,61 +95,46 @@ public class KruskalMST {
 		for (int i = 0; i < M; i++) {
 			int x = scanner.nextInt();
 			int y = scanner.nextInt();
-			int r = scanner.nextInt();
-			solution.addEdge(x, y, r);
+			int w = scanner.nextInt();
+			solution.addEdge(x, y, w);
 		}
 		scanner.close();
 		System.out.println(solution.mstWeight());
-		long end = System.currentTimeMillis();
-		System.out.println((end - start) / 1000);
-		//solution.generateOutput();
 	}
 
-	
-	private long mstWeight() {
-		Node[] nodes = new Node[N+1];
-		for (int i = 1; i <= N; i++) {
-			nodes[i] = new Node();
+	/**
+	 * 
+	 * @return the weight of the MST.
+	 */
+	public long mstWeight() {
+		List<Node> nodes = new ArrayList<Node>(N);
+		for (int i = 0; i < N; i++) {
+			nodes.add(new Node(i));
 		}
 		
-		Arrays.sort(edges);
+		Collections.sort(edges);
 		
 		long weight = 0;
 		
 		for (Edge edge: edges) {
-			Node node1 = nodes[edge.x].find();
-			Node node2 = nodes[edge.y].find();
+			Node node1 = nodes.get(edge.x).find();
+			Node node2 = nodes.get(edge.y).find();
 			if (! node1.equals(node2)) {
 				node1.union(node2);
-				weight += edge.r;
+				weight += edge.w;
 			}
 		}
 		
 		return weight;
 	}
 
-	private void addEdge(int x, int y, int r) {
-		edges[j] = new Edge(x, y, r);
-		j++;
-	}
-	
-	public void generateOutput() throws Exception {
-		PrintWriter printWriter = new PrintWriter(new File("inputs/input"));
-		int N = 3000;
-		int M = N * (N-1) / 2;
-		printWriter.print(N);
-		printWriter.print(" ");
-		printWriter.println(M);
-		
-		Random random = new Random();
-		int W = 100000;
-		for (int i = 0; i < M; i++) {
-			printWriter.print(1+random.nextInt(N));
-			printWriter.print(" ");
-			printWriter.print(1+random.nextInt(N));
-			printWriter.print(" ");
-			printWriter.println(random.nextInt(W));
-		}
-		printWriter.close();
+	/**
+	 * 
+	 * @param x
+	 * @param y
+	 * @param w
+	 */
+	public void addEdge(int x, int y, int w) {
+		edges.add(new Edge(x, y, w));
 	}
 }
