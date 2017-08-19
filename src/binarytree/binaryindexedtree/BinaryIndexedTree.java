@@ -1,69 +1,60 @@
 package binarytree.binaryindexedtree;
 
 /**
- * A Fenwick tree allows to update values in an array and maintain prefix sums/counts efficiently.
- * This allows to return the number of elements which value is <= x.
+ * A binary-indexed / Fenwick tree allows to query prefix sum/count in O(log(n)).
+ * It returns for example the number of elements which value is <= x.
+ * It also supports online updates in O(log(n)). So we can build a BIT out of an array in O(n log(n)).
+ *
+ * Values for insert and query should be > 0 and <= max.
  */
 public class BinaryIndexedTree {
     /**
-    * cumulative count
-    */
+     * Cumulative Count.
+     * Space complexity is O(max) where max is the max value in the array.
+     */
     int[] count;
 
     /**
-    * max value in the tree
-    */
+     * Max value in the tree.
+     */
     int m;
 
     public BinaryIndexedTree(int m) {
-      count = new int[m+1];
-      this.m = m;
-    }
-
-    public void add(int i) {
-        change(i, 1);
+        count = new int[m + 1];
+        this.m = m;
     }
 
     /**
-     * Add / remove diff elements of value i
-     * @param i
+     * Add / remove diff elements of value i.
+     *
+     * @param i int > 0
      * @param diff
      */
     public void change(int i, int diff) {
-    /*
-      for (int i = index; i <= m; i++) {
-        count[i] += diff;
-      }
-    */
-      while (i <= m) {
-        count[i] += diff;
-        i += (i & -i);
-      }
+        assert i > 0;
+        while (i <= m) {
+            count[i] += diff;
+            i += (i & -i);
+        }
     }
 
     /**
-    * @param  i int
-    * @return   int the number of elements which value is <= index
-    */
+     * @param i int
+     * @return int the number of elements which value is <= i
+     */
     public int get(int i) {
-    /*
-      if (index < 0) {
-        return 0;
-      }
-      return count[index];
-    */
-      int res = 0;
-      while (i > 0) {
-        res += count[i];
-        i -= (i & -i);
-      }
-      return res;
+        int res = 0;
+        while (i > 0) {
+            res += count[i];
+            i -= (i & -i);
+        }
+        return res;
     }
 
     private void print() {
-      for (int i = 0 ; i <= m; i++) {
-        System.out.print(count[i] + " ");
-      }
-      System.out.println();
+        for (int i = 0; i <= m; i++) {
+            System.out.print(count[i] + " ");
+        }
+        System.out.println();
     }
 }

@@ -9,17 +9,14 @@ import arithmetics.Arithmetics;
 import arithmetics.Arithmetics.Pair;
 
 /**
- * Use Berlekamp–Massey algorithm to compute the Minimal Polynomial of a linear
- * recurrent sequence in a field.
+ * Use Berlekamp–Massey algorithm to compute the Minimal Polynomial of a linear recurrent sequence in a field.
  *
  * Source:
- * https://www.hackerrank.com/rest/contests/world-codesprint-8/challenges
- * /prime-digit-sums/hackers/anta0/download_solution
+ * https://www.hackerrank.com/rest/contests/world-codesprint-8/challenges/prime-digit-sums/hackers/anta0/download_solution
  */
 public class MinimalPolynomial {
 
-	protected final static Logger LOGGER = Logger
-			.getLogger(MinimalPolynomial.class.getName());
+	protected final static Logger LOGGER = Logger.getLogger(MinimalPolynomial.class.getName());
 
 	/**
 	 * Prime number, to define a field Z/pZ.
