@@ -30,7 +30,7 @@ public class SparseTableTest {
         Integer sum = boxed.stream().reduce(rangeSum::f).get();
 
         // O(log(n)) complexity
-        Integer sumQuery = rangeSum.query(0, a.length-1);
+        Integer sumQuery = rangeSum.query(0, boxed.size()-1);
 
         Assert.assertEquals(sum, sumQuery);
     }

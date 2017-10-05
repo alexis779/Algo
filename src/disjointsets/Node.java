@@ -4,6 +4,6 @@ package disjointsets;
  * Disjoint Set Member
  */
 public interface Node<T> {
-    T value();
+    T getValue();
     DisjointSet<T> getRepresentative();
 }

@@ -4,10 +4,17 @@ import disjointsets.DisjointSet;
 import disjointsets.DisjointSets;
 import disjointsets.Node;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class LinkedListDisjointSets<T> implements DisjointSets<T> {
 
+    private Set<DisjointSet<T>> sets = new HashSet<>();
+
     public Node<T> makeSet(T t) {
-        return new LinkedListNode<T>(t);
+        Node<T> node =  new LinkedListNode<T>(t);
+        sets.add(node.getRepresentative());
+        return node;
     }
 
     /**
@@ -40,6 +47,11 @@ public class LinkedListDisjointSets<T> implements DisjointSets<T> {
         bigSet.setTail(smallSet.tail());
         bigSet.setSize(bigSet.getSize() + smallSet.getSize());
 
+        sets.remove(smallSet);
         return bigSet;
+    }
+
+    public Set<DisjointSet<T>> getSets() {
+        return sets;
     }
 }

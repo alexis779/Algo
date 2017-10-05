@@ -3,6 +3,8 @@ package disjointsets.linkedlist;
 import disjointsets.DisjointSet;
 import disjointsets.Node;
 
+import java.util.Objects;
+
 public class LinkedListNode<T> implements Node<T> {
     private T value;
     private LinkedListDisjointSet<T> representative;
@@ -13,7 +15,7 @@ public class LinkedListNode<T> implements Node<T> {
         this.representative = new LinkedListDisjointSet<>(this);
     }
 
-    public T value() {
+    public T getValue() {
         return value;
     }
 
@@ -31,5 +33,10 @@ public class LinkedListNode<T> implements Node<T> {
 
     public void setNext(LinkedListNode<T> next) {
         this.next = next;
+    }
+
+    @Override
+    public String toString() {
+        return Objects.toString(getValue());
     }
 }
