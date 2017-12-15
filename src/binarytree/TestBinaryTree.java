@@ -14,28 +14,21 @@ import org.junit.Test;
 
 public class TestBinaryTree {
 	public final static Logger LOGGER = Logger.getLogger(TestBinaryTree.class.getName());
-	public static final int[] NUMBERS = new int[] {
+	public static final Integer[] INTEGERS = new Integer[] {
 		1, 4, 2, 6, 9, 15
 	};
-	
+
 	protected BinaryTree<Integer> binaryTree;
 	
 	protected void setBinaryTree() {
 		binaryTree = new BinarySearchTree<Integer>();
 	}
 
-	public static List<Integer> intList() {
-		return Arrays.stream(NUMBERS)
-				.boxed()
-				.collect(Collectors.toList());
-	}
-
 	@Before
 	public void buildTree() {
 		setBinaryTree();
-		for (int i: NUMBERS) {
-			binaryTree.add(new Integer(i));
-		}	
+		Arrays.stream(INTEGERS)
+				.forEach(binaryTree::add);
 	}
 
 	@Test
@@ -55,12 +48,11 @@ public class TestBinaryTree {
 		BinarySearchTree<Integer> binarySearchTree = (BinarySearchTree<Integer>) binaryTree;
 
 		// traversal
-		Arrays.sort(NUMBERS);
+		Arrays.sort(INTEGERS);
 		Enumeration<Integer> enumeration = binarySearchTree.enumeration();
 		int n = 0;
 		while (enumeration.hasMoreElements()) {
-			Integer i = enumeration.nextElement();
-			Assert.assertEquals(i.intValue(), NUMBERS[n++]);
+			Assert.assertEquals(INTEGERS[n++], enumeration.nextElement());
 		}
 		
 		// traverse root node
@@ -76,9 +68,9 @@ public class TestBinaryTree {
 	@Test
 	public void treeSet() {
 		Set<Integer> set = new TreeSet<Integer>();
-		for (int i: NUMBERS) {
-			set.add(new Integer(i));
-		}
+		Arrays.stream(INTEGERS)
+				.forEach(set::add);
+
 		// search
 		Assert.assertTrue(set.contains(2));
 		Assert.assertFalse(set.contains(3));

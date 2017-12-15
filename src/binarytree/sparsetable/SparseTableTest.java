@@ -13,7 +13,7 @@ import java.util.stream.Stream;
 public class SparseTableTest {
     @Test
     public void sum() {
-        List<Integer> a = TestBinaryTree.intList();
+        Integer[] a = TestBinaryTree.INTEGERS;
 
         SparseTable<Integer> rangeSum = new SparseTable<Integer>(a) {
             public Integer neutralElement() {
@@ -26,10 +26,12 @@ public class SparseTableTest {
         };
 
         // O(n) complexity
-        Integer sum = a.stream().reduce(rangeSum::query).get();
+        Integer sum = Arrays.stream(a)
+                .reduce(rangeSum::query)
+                .get();
 
         // O(log(n)) complexity
-        Integer sumQuery = rangeSum.rangeQuery(0, a.size()-1);
+        Integer sumQuery = rangeSum.rangeQuery(0, a.length-1);
 
         Assert.assertEquals(sum, sumQuery);
     }

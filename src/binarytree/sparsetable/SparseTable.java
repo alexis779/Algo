@@ -10,25 +10,20 @@ import java.util.List;
 public abstract class SparseTable<T> {
 
     /**
-     * Immutable list of size n.
-     */
-    List<T> a;
-
-    /**
      * Sparse table has n rows and k = log(n) columns.
      * Space complexity is O(n log(n)).
      */
     List<List<T>> t;
 
-    public SparseTable(List<T> a) {
+    public SparseTable(T[] a) {
         buildTable(a);
     }
 
     /**
      * Build the table in O(n log(n)).
      */
-    private void buildTable(List<T> a) {
-        int n = a.size();
+    private void buildTable(T[] a) {
+        int n = a.length;
         t = new ArrayList<>(n);
 
         // get binary log of n
@@ -37,7 +32,7 @@ public abstract class SparseTable<T> {
 
         for (int i = 0; i < n; i++) {
             List<T> levels = new ArrayList<>(k);
-            levels.add(query(neutralElement(), a.get(i)));
+            levels.add(query(neutralElement(), a[i]));
             t.add(levels);
         }
 

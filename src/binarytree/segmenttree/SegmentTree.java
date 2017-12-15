@@ -34,7 +34,7 @@ public abstract class SegmentTree<T> {
 	
 	private void build() {
 		int k = msb(n);
-		this.height = k;
+		height = k;
 		int start = 1 << k;
 		
 		// number of leaves at the level k+1
@@ -62,7 +62,7 @@ public abstract class SegmentTree<T> {
 				// assign the result of the query of left and right to parent
 				int left = i << 1;
 				if (left <= size) {
-					nodes[i] = query(neutralElement(), nodes[left]);
+					nodes[i] = nodes[left];
 				}
 				int right = left+1;
 				if (right <= size) {
@@ -87,7 +87,7 @@ public abstract class SegmentTree<T> {
 	 * @return the result of the range query in interval [i-j]
 	 */
 	public T rangeQuery(int i, int j) {
-		int start = 1 << this.height;
+		int start = 1 << height;
 		int leaves1 = (this.n - start) << 1;
 		
 		T result = neutralElement();
@@ -97,7 +97,7 @@ public abstract class SegmentTree<T> {
 		int b = (start << 1) - 1 - (n-j);
 		if (a <= b && first <= b) {
 			// search leaves at level k
-			result = search(a, b, 1, this.height);
+			result = search(a, b, 1, height);
 		}
 		
 		if (leaves1 != 0) {
@@ -108,7 +108,7 @@ public abstract class SegmentTree<T> {
 			b = Math.min(start + j - 1, last);
 			if (a <= b && a <= last) {
 				// search leaves at level k+1
-				result = query(result, search(a, b, 1, this.height+1));
+				result = query(result, search(a, b, 1, height+1));
 			}
 		}
 
@@ -141,7 +141,7 @@ public abstract class SegmentTree<T> {
 	public abstract T neutralElement();
 
 	public void print() {
-		for (int i = 0; i < nodes.length; i++) {
+		for (int i = 1; i < nodes.length; i++) {
 			System.out.print(nodes[i] + " ");
 		}
 		System.out.println();
@@ -149,12 +149,12 @@ public abstract class SegmentTree<T> {
 	}
 
 	private void print(int parent, int depth) {
-		int a = (parent << (this.height+1-depth));
-		int b = a + (1 << (this.height+1-depth)) - 1;
+		int a = (parent << (height+1-depth));
+		int b = a + (1 << (height+1-depth)) - 1;
 		for (int i = 0; i < depth; i++) {
 			System.out.print(" ");
 		}
-		int internalNodes = (1 << (this.height+1)) - 1;
+		int internalNodes = (1 << (height+1)) - 1;
 		System.out.println(nodes[parent] + " [" + (a - internalNodes) + "," + (b - internalNodes) + "]");
 		
 		int left = parent << 1;
@@ -165,6 +165,43 @@ public abstract class SegmentTree<T> {
 		int right = left+1;
 		if (right <= size) {
 			print(right, depth+1);
+		}
+	}
+
+	/**
+	 * Set value to v at position i.
+	 *
+	 * @param pos the position to update
+	 * @param v the new value
+	 */
+	public void update(int pos, T v) {
+		a[pos] = v;
+
+		int start = 1 << height;
+		int leaves1 = (this.n - start) << 1;
+		int i;
+		if (pos <= leaves1) {
+			// level k+1
+			i = (start << 1) + pos - 1;
+		} else {
+			// level k
+			int first = start + (leaves1 >> 1);
+			i = first + pos - leaves1 - 1;
+		}
+
+		nodes[i] = v;
+		while(i > 1) {
+			int parent = i >> 1;
+			if (i % 2 == 1) {
+				i--;
+			}
+			T parentValue = query(nodes[i], nodes[i+1]);
+			if (! parentValue.equals(nodes[parent])) {
+				nodes[parent] = parentValue;
+			} else {
+				break;
+			}
+			i = parent;
 		}
 	}
 }

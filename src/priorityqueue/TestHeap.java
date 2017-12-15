@@ -11,9 +11,11 @@ public class TestHeap {
 
 	@Test
 	public void sortNumbers() {
-		Integer[] values = new Integer[TestBinaryTree.NUMBERS.length+1];
-		for (int i = 0; i < TestBinaryTree.NUMBERS.length; i++) {
-			values[i+1] = TestBinaryTree.NUMBERS[i];
+		Integer[] a = TestBinaryTree.INTEGERS;
+
+		Integer[] values = new Integer[a.length+1];
+		for (int i = 0; i < a.length; i++) {
+			values[i+1] = a[i];
 		}
 		PriorityQueue<Integer> priorityQueue = new Heap<Integer>(values);		
 		
@@ -28,9 +30,9 @@ public class TestHeap {
 		Assert.assertEquals(head, priorityQueue.poll());
 		
 		// sort array by popping elements from the queue
-		Arrays.sort(TestBinaryTree.NUMBERS);
-		for (int i: TestBinaryTree.NUMBERS) {
-			Assert.assertEquals(new Integer(i), priorityQueue.pop());
+		Arrays.sort(TestBinaryTree.INTEGERS);
+		for (Integer i: TestBinaryTree.INTEGERS) {
+			Assert.assertEquals(i, priorityQueue.pop());
 		}
 	}
 	
