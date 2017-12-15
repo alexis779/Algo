@@ -12,6 +12,11 @@ public class Tree {
         adjacency = new ArrayList<>();
     }
 
+    public Tree(List<TreeNode> nodes, List<List<Integer>> adjacency) {
+        this.nodes = nodes;
+        this.adjacency = adjacency;
+    }
+
     public List<TreeNode> getNodes() {
         return nodes;
     }

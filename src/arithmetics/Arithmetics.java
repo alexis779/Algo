@@ -28,7 +28,7 @@ public class Arithmetics {
 	}
 
 	public class Pair {
-		int u, v;
+		private int u, v;
 
 		public Pair(int u, int v) {
 			this.u = u;

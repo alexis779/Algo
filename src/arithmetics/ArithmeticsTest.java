@@ -20,7 +20,7 @@ public class ArithmeticsTest {
 	@Test
 	public void bezoutIdentity() {
 		Pair pair = new Arithmetics().bezoutCoefficients(12, 8);
-		Assert.assertEquals(1, pair.u);
-		Assert.assertEquals(-1, pair.v);
+		Assert.assertEquals(1, pair.u());
+		Assert.assertEquals(-1, pair.v());
 	}
 }
