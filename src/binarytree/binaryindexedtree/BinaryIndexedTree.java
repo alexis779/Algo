@@ -51,7 +51,7 @@ public class BinaryIndexedTree {
         return res;
     }
 
-    private void print() {
+    public void print() {
         for (int i = 0; i <= m; i++) {
             System.out.print(count[i] + " ");
         }

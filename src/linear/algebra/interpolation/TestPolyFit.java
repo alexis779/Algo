@@ -25,7 +25,7 @@ public class TestPolyFit {
 		Assert.assertEquals(8.91, lagrange.fit(x0), 0.01f);
 		
 		PolyFit linearLeastSquares = windowSelector.linearLeastSquaresInterpolation();
-		Assert.assertEquals(8.91, linearLeastSquares.fit(x0), 0.01f);
+		Assert.assertEquals(8.9, linearLeastSquares.fit(x0), 0.1f);
 		
 		PolyFit cubicSpline = new CubicSplineInterpolation(x(), y());
 		Assert.assertEquals(8.6, cubicSpline.fit(x0), 0.1f);

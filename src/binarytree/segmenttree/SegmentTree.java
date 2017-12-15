@@ -3,7 +3,7 @@ package binarytree.segmenttree;
 /**
  * Range Minimum Query
  */
-public class SegmentTree {
+public abstract class SegmentTree<T> {
 	/**
 	 * Number of elements contained in the original array 
 	 */
@@ -11,7 +11,7 @@ public class SegmentTree {
 	/**
 	 * 1-indexed original array
 	 */
-	int[] a;
+	T[] a;
 	
 	/**
 	 * Number of nodes in the binary tree
@@ -20,13 +20,13 @@ public class SegmentTree {
 	/**
 	 * 1-indexed array representing the binary tree
 	 */
-	int[] nodes;
+	T[] nodes;
 	/**
 	 * Height of the tree
 	 */
 	int height;
 	
-	SegmentTree(int[] a) {
+	SegmentTree(T[] a) {
 		this.a = a;
 		this.n = this.a.length-1;
 		build();
@@ -43,7 +43,7 @@ public class SegmentTree {
 		size = start + leaves1 - 1;
 
 		// array is 1-indexed
-		nodes = new int[size+1];
+		nodes = (T[]) new Object[size+1];
 		
 		// populate the leaves at the level k+1
 		for (int i = 1; i <= leaves1; i++) {
@@ -59,14 +59,14 @@ public class SegmentTree {
 		for ( ; k >= 0; k--) {
 			// populate level k
 			for (int i = 1 << k; i < 1 << (k+1); i++) {
-				// assign the min of left and right to parent
+				// assign the result of the query of left and right to parent
 				int left = i << 1;
 				if (left <= size) {
-					nodes[i] = nodes[left];
+					nodes[i] = query(neutralElement(), nodes[left]);
 				}
 				int right = left+1;
-				if (right <= size && nodes[right] < nodes[i]) {
-					nodes[i] = nodes[right];
+				if (right <= size) {
+					nodes[i] = query(nodes[i], nodes[right]);
 				}
 			}
 		}
@@ -84,20 +84,20 @@ public class SegmentTree {
 	/**
 	 * @param i left bound of the interval
 	 * @param j	right bound of the interval
-	 * @return the min element in interval [i-j]
+	 * @return the result of the range query in interval [i-j]
 	 */
-	public int min(int i, int j) {
+	public T rangeQuery(int i, int j) {
 		int start = 1 << this.height;
 		int leaves1 = (this.n - start) << 1;
 		
-		int min = Integer.MAX_VALUE;
+		T result = neutralElement();
 		
 		int first = start + (leaves1 >> 1);
 		int a = Math.max(first + i - leaves1 - 1, first);
 		int b = (start << 1) - 1 - (n-j);
 		if (a <= b && first <= b) {
 			// search leaves at level k
-			min = search(a, b, 1, this.height);
+			result = search(a, b, 1, this.height);
 		}
 		
 		if (leaves1 != 0) {
@@ -108,14 +108,14 @@ public class SegmentTree {
 			b = Math.min(start + j - 1, last);
 			if (a <= b && a <= last) {
 				// search leaves at level k+1
-				min = Math.min(min, search(a, b, 1, this.height+1));
+				result = query(result, search(a, b, 1, this.height+1));
 			}
 		}
 
-		return min;
+		return result;
 	}
 
-	private int search(int i, int j, int parent, int depth) {
+	private T search(int i, int j, int parent, int depth) {
 		int a = parent << depth;
 		int b = a + (1 << depth) - 1;
 		
@@ -132,9 +132,13 @@ public class SegmentTree {
 		} else if (i > m) {
 			return search(i, j, right, depth-1);
 		} else {
-			return Math.min(search(i, m, left, depth-1), search(m+1, j, right, depth-1));
+			return query(search(i, m, left, depth-1), search(m+1, j, right, depth-1));
 		}
 	}
+
+	public abstract T query(T x, T y);
+
+	public abstract T neutralElement();
 
 	public void print() {
 		for (int i = 0; i < nodes.length; i++) {

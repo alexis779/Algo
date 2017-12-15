@@ -13,9 +13,9 @@ public class MergeSort<T extends Comparable<T>> implements Sort<T> {
 	private List<T> buffer;
 
 	public void sort(List<T> list) {
-		this.buffer = new ArrayList<T>(list.size());
+		buffer = new ArrayList<T>(list.size());
 		for (int i = 0; i < list.size(); i++) {
-			this.buffer.add(null);
+			buffer.add(null);
 		}
 
 		mergeSort(list);
@@ -44,15 +44,13 @@ public class MergeSort<T extends Comparable<T>> implements Sort<T> {
 		int i = start;
 		while (i <= end) {
 			while (left <= middle
-					&& (right > end || (list.get(left).compareTo(
-							list.get(right)) <= 0))) {
+					&& (right > end || (list.get(left).compareTo(list.get(right)) <= 0))) {
 				this.buffer.set(i, list.get(left));
 				left++;
 				i++;
 			}
 			while (right <= end
-					&& (left > middle || (list.get(left).compareTo(
-							list.get(right)) > 0))) {
+					&& (left > middle || (list.get(left).compareTo(list.get(right)) > 0))) {
 				this.buffer.set(i, list.get(right));
 				right++;
 				i++;

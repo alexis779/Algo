@@ -1,9 +1,11 @@
 package binarytree;
 import java.util.Arrays;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -21,7 +23,13 @@ public class TestBinaryTree {
 	protected void setBinaryTree() {
 		binaryTree = new BinarySearchTree<Integer>();
 	}
-	
+
+	public static List<Integer> intList() {
+		return Arrays.stream(NUMBERS)
+				.boxed()
+				.collect(Collectors.toList());
+	}
+
 	@Before
 	public void buildTree() {
 		setBinaryTree();
@@ -79,7 +87,7 @@ public class TestBinaryTree {
 		set.add(3);
 		Assert.assertTrue(set.contains(3));
 		set.remove(3);
-		Assert.assertNull(set.contains(3));
+		Assert.assertFalse(set.contains(3));
 	}
 
 }

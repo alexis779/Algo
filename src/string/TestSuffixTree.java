@@ -4,6 +4,8 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import java.util.Optional;
+
 public class TestSuffixTree {
 
 	@Test
@@ -12,7 +14,7 @@ public class TestSuffixTree {
 		String text = "abababc";
 		String pattern = "text";
 		SuffixTree suffixTree = new SuffixTree(text);
-		assertEquals(new Integer(text.indexOf(pattern)), suffixTree.match(pattern));
+		assertEquals(text.indexOf(pattern), Optional.ofNullable(suffixTree.match(pattern)).orElse(-1).intValue());
 	}
 
 }

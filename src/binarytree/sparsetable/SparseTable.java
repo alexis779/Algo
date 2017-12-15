@@ -1,10 +1,7 @@
 package binarytree.sparsetable;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 /**
  * Range Query on an array without updates between queries.
@@ -40,7 +37,7 @@ public abstract class SparseTable<T> {
 
         for (int i = 0; i < n; i++) {
             List<T> levels = new ArrayList<>(k);
-            levels.add(f(neutralElement(), a.get(i)));
+            levels.add(query(neutralElement(), a.get(i)));
             t.add(levels);
         }
 
@@ -48,7 +45,7 @@ public abstract class SparseTable<T> {
         for (int j = 1; j < k; j++) {
             int bit2 = bit << 1;
             for (int i = 0; i + bit2 <= n; i++) {
-                t.get(i).add(f(t.get(i).get(j-1), t.get(i + bit).get(j-1)));
+                t.get(i).add(query(t.get(i).get(j-1), t.get(i + bit).get(j-1)));
             }
             bit = bit2;
         }
@@ -60,7 +57,7 @@ public abstract class SparseTable<T> {
      * @param end
      * @return the Range Query in [start, end] interval of the array
      */
-    public T query(int start, int end) {
+    public T rangeQuery(int start, int end) {
         if (start < 0) {
             start = 0;
         }
@@ -82,7 +79,7 @@ public abstract class SparseTable<T> {
                 k = 0;
             }
 
-            r = f(r, t.get(start).get(k));
+            r = query(r, t.get(start).get(k));
 
             start += bit;
         }
@@ -92,5 +89,5 @@ public abstract class SparseTable<T> {
 
     public abstract T neutralElement();
 
-    public abstract T f(T t1, T t2);
+    public abstract T query(T t1, T t2);
 }

@@ -8,8 +8,7 @@ public class ModularExponentTest {
 
 	@Test
 	public void modularExponent() {
-		ModularExponent modularExponent = new ModularExponent(3, 4, 100);
-		Assert.assertEquals(81, modularExponent.value());
+		Assert.assertEquals(81, new ModularExponent().value(3, 4, 100));
 	}
 
 }
