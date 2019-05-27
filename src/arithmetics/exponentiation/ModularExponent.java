@@ -21,10 +21,10 @@ public class ModularExponent {
 		
 		while (exponent > 0) {
 			if ((exponent & 1) != 0) {
-				pow = multiply(pow, base) % m;
+				pow = multiply(pow, base, m);
 			}
 			exponent >>= 1;			
-			base = multiply(base, base) % m;
+			base = multiply(base, base, m);
 		}
 		
 		return pow;
@@ -35,9 +35,10 @@ public class ModularExponent {
 	 *
 	 * @param a
 	 * @param b
-	 * @return a * b
+	 * @param m
+	 * @return a * b % m
 	 */
-	private int multiply(int a, int b) {
-		return (int) ((long) a * b);
+	private int multiply(int a, int b, int m) {
+		return (int) ((1l * a * b) % m);
 	}
 }

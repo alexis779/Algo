@@ -139,9 +139,8 @@ public class MinimalPolynomial {
 	 * @param a
 	 * @return the inverse of a
 	 */
-	private int inverse(int a) {
-		Pair pair = new Arithmetics().bezoutCoefficients(a, P);
-		return pair.u() % P;
+	private long inverse(int a) {
+		return Arithmetics.inverse(a, P);
 	}
 
 	/**

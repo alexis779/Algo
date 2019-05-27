@@ -9,9 +9,9 @@ public class Arithmetics {
 	 * @param b
 	 * @return Greatest Common Divisor
 	 */
-	public static int gcd(int a, int b) {
+	public static long gcd(long a, long b) {
 		while (b != 0) {
-			int r = b;
+			long r = b;
 			b = a % b;
 			a = r;
 		}
@@ -23,14 +23,14 @@ public class Arithmetics {
 	 * @param b
 	 * @return Lowest Common Multiple
 	 */
-	public static int lcm(int a, int b) {
+	public static long lcm(long a, long b) {
 		return a * b / gcd(a, b);
 	}
 
-	public class Pair {
-		private int u, v;
+	public static class Pair {
+		private long u, v;
 
-		public Pair(int u, int v) {
+		public Pair(long u, long v) {
 			this.u = u;
 			this.v = v;
 		}
@@ -45,11 +45,11 @@ public class Arithmetics {
 			return String.format("(%d,%d)", u, v);
 		}
 
-		public int u() {
+		public long u() {
 			return u;
 		}
 
-		public int v() {
+		public long v() {
 			return v;
 		}
 	}
@@ -63,14 +63,14 @@ public class Arithmetics {
 	 * @param b
 	 * @return (u, v)
 	 */
-	public Pair bezoutCoefficients(int a, int b) {
-		int s = 0, old_s = 1;
-		int t = 1, old_t = 0;
-		int r = b, old_r = a;
-		int prov;
+	public static Pair bezoutCoefficients(long a, long b) {
+		long s = 0, old_s = 1;
+		long t = 1, old_t = 0;
+		long r = b, old_r = a;
+		long prov;
 
 		while (r != 0) {
-			int q = old_r / r;
+			long q = old_r / r;
 
 			prov = r;
 			r = old_r - q * prov;
@@ -86,5 +86,10 @@ public class Arithmetics {
 		}
 
 		return new Pair(old_s, old_t);
+	}
+
+	public static long inverse(long u, long mod) {
+		Pair pair = bezoutCoefficients(u, mod);
+		return ((pair.u() % mod) + mod) % mod;
 	}
 }
