@@ -57,7 +57,7 @@ public class PollardRhoPrimeFactorization {
         if (N.compareTo(ONE) == 0) {
         	return;
         }
-        if (N.isProbablePrime(20)) {
+        if (N.isProbablePrime(8)) {
         	incrementExponent(N);
         	return;
         }

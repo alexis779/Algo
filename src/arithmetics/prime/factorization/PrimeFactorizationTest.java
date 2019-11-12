@@ -30,7 +30,7 @@ public class PrimeFactorizationTest {
 	}
 
 	private List<BigInteger> bigIntegerList(List<Integer> intList) {
-		List<BigInteger> list = new ArrayList<BigInteger>(intList.size());
+		List<BigInteger> list = new ArrayList<>(intList.size());
 		for (int i: intList) {
 			list.add(BigInteger.valueOf(i));
 		}

@@ -12,6 +12,19 @@ public class Tree {
         adjacency = new ArrayList<>();
     }
 
+    public Tree(int n, List<Edge> edges) {
+        this();
+        for (int i = 0; i < n; i++) {
+            nodes.add(new DefaultTreeNode(i));
+            adjacency.add(new ArrayList<>());
+        }
+
+        for (Edge edge: edges) {
+            adjacency.get(edge.u).add(edge.v);
+            adjacency.get(edge.v).add(edge.u);
+        }
+    }
+
     public Tree(List<TreeNode> nodes, List<List<Integer>> adjacency) {
         this.nodes = nodes;
         this.adjacency = adjacency;
