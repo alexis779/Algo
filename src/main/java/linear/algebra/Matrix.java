@@ -1,5 +1,8 @@
 package linear.algebra;
 
+import java.util.Arrays;
+import java.util.stream.Collectors;
+
 /**
  * Represent a 2-dimensional matrix
  */
@@ -16,18 +19,73 @@ public class Matrix {
 
 	public double[][] M;
 
+	/**
+	 * Copy constructor
+	 *
+	 * @param M matrix to copy
+	 */
+	public Matrix(Matrix M) {
+		double[][] data = new double[M.n][M.m];
+		for (int i = 0; i < M.n; i++) {
+			System.arraycopy(M.M[i], 0, data[i], 0, M.m);
+		}
+		init(data);
+	}
+
 	public Matrix(double[][] M) {
 		init(M);
+	}
+
+	/**
+	 * Cast int to double matrix
+	 *
+	 * @param M int matrix to copy
+	 */
+	public Matrix(int[][] M) {
+		initDimensions(M);
+		this.M = new double[n][m];
+		for (int i = 0; i < n; i++) {
+			for (int j = 0; j < m; j++) {
+				this.M[i][j] = M[i][j];
+			}
+		}
 	}
 
 	private void init(double[][] M) {
 		this.M = M;
 		this.n = M.length;
-		if (M.length > 0) {
-			this.m = M[0].length;
-		} else {
-			this.m = 0;
+		this.m = (M.length > 0) ? M[0].length : 0;
+	}
+
+	private void initDimensions(int[][] M) {
+		this.n = M.length;
+		this.m = (M.length > 0) ? M[0].length : 0;
+	}
+
+	@Override
+	public String toString() {
+		return Arrays.stream(M)
+				.map(Vector::toString)
+				.collect(Collectors.joining("\n"));
+	}
+
+	@Override
+	public boolean equals(Object object) {
+		if (! (object instanceof Matrix)) {
+			return false;
 		}
+		Matrix other = (Matrix) object;
+		if (! (n == other.n && m == other.m)) {
+			return false;
+		}
+
+		for (int i = 0; i < n; i++) {
+			if (! Vector.doubleArrayEquals(M[i], other.M[i])) {
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 	public Matrix multiply(Matrix N) {
@@ -140,16 +198,6 @@ public class Matrix {
 		return new Matrix(d);
 	}
 
-	public void println() {
-		for (int i = 0; i < this.n; i++) {
-			for (int j = 0; j < this.m; j++) {
-				System.err.print(this.M[i][j] + " ");
-			}
-			System.err.println();
-		}
-		System.err.println();
-	}
-
 	/**
 	 * @param y
 	 * @return X' * y
@@ -232,5 +280,27 @@ public class Matrix {
 			x[i] = v[i] - this.M[i][i + 1] * x[i + 1];
 		}
 		return new Vector(x);
+	}
+
+	public Matrix deleteRowColumn(int row, int column) {
+		// assert n > 0 && m > 0
+
+		double[][] data = new double[n-1][m-1];
+		for (int i = 0; i < n; i++) {
+			if (i == row) {
+				continue;
+			}
+
+			int i2 = (i < row) ? i : i-1;
+			for (int j = 0; j < m; j++) {
+				if (j == column) {
+					continue;
+				}
+
+				int j2 = (j < column) ? j : j-1;
+				data[i2][j2] = M[i][j];
+			}
+		}
+		return new Matrix(data);
 	}
 }

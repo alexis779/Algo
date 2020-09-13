@@ -7,6 +7,8 @@ import linear.algebra.QRDecomposition;
 import linear.algebra.Vector;
 import org.apache.commons.math3.linear.MatrixUtils;
 
+import java.util.logging.Logger;
+
 /**
  * Linear Least Squares
  * A x = y
@@ -17,6 +19,8 @@ import org.apache.commons.math3.linear.MatrixUtils;
  * 
  */
 public class LinearLeastSquares {
+	private final static Logger LOGGER = Logger.getLogger(LinearLeastSquares.class.getName());
+
 	private Vector beta;
 	private Double rootMeanSquareError;
 	
@@ -36,10 +40,10 @@ public class LinearLeastSquares {
 	private void qrDecomposition() {
 		QRDecomposition qrDecomposition = new QRDecomposition(this.X.gramian());
 		this.beta = qrDecomposition.R().upperTriangularSolve(qrDecomposition.Q().transpose().multiply(this.X.transpose()).multiply(this.y));
-		this.beta.println();
+		LOGGER.info(this.beta.toString());
 		org.apache.commons.math3.linear.QRDecomposition apacheQrDecomposition = new org.apache.commons.math3.linear.QRDecomposition(MatrixUtils.createRealMatrix(this.X.gramian().M));
 		Vector apacheBeta = new Matrix(apacheQrDecomposition.getR().getData()).upperTriangularSolve(new Matrix(apacheQrDecomposition.getQT().getData()).multiply(this.X.transpose()).multiply(this.y));
-		apacheBeta.println();
+		LOGGER.info(apacheBeta.toString());;
 	}
 
 	/**

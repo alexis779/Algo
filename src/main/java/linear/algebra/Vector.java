@@ -1,9 +1,14 @@
 package linear.algebra;
 
+import java.util.Arrays;
+import java.util.stream.Collectors;
+
 /**
  * Represents a 1-dimensional array
  */
 public class Vector {
+	private static final double PRECISION = 0.0001;
+
 	int size;
 	public double[] v;
 	public Vector(double[] v) {
@@ -26,7 +31,45 @@ public class Vector {
 	public int size() {
 		return this.size;
 	}
-	
+
+	@Override
+	public String toString() {
+		return toString(v);
+	}
+
+	public static String toString(double[] d) {
+		return Arrays.stream(d)
+				.mapToObj(Double::toString)
+				.collect(Collectors.joining(" "));
+	}
+
+	@Override
+	public boolean equals(Object object) {
+		if (! (object instanceof Vector)) {
+			return false;
+		}
+
+		Vector other = (Vector) object;
+		if (! (size == other.size)) {
+			return false;
+		}
+
+		return doubleArrayEquals(v, other.v);
+	}
+
+	public static boolean doubleArrayEquals(double[] d1, double[] d2) {
+		for (int i = 0; i < d1.length; i++) {
+			if (! doubleEquals(d1[i], d2[i])) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	private static boolean doubleEquals(double d1, double d2) {
+		return Math.abs(d1-d2) < PRECISION;
+	}
+
 	public static Matrix vanDerMonde(Vector v, int n) {
 		double[] x = v.v;
 		double[][] d = new double[x.length][n+1];
@@ -48,17 +91,6 @@ public class Vector {
 		return row;
 	}
 
-	public void println() {
-		System.out.print("[");
-		for (int i = 0; i < v.length; i++) {
-			System.out.print(v[i]);
-			if (i < v.length-1) {
-				 System.out.print(", ");
-			}
-		}
-		System.out.println("]");
-	}
-
 	public double dotProduct(Vector vector) {
 		double d = 0;
 		double[] row = vector.v;
@@ -74,6 +106,19 @@ public class Vector {
 			d[i] = y[i];
 		}
 		return d;
+	}
+
+	/**
+	 * Cast double to int
+	 *
+	 * @return int array
+	 */
+	public int[] toInt() {
+		int[] i = new int[size];
+		for (int j = 0; j < size; j++) {
+			i[j] = (int) Math.round(v[j]);
+		}
+		return i;
 	}
 
 	/**

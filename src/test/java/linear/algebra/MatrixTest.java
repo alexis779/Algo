@@ -1,138 +1,72 @@
 package linear.algebra;
 
-import org.apache.commons.math3.linear.MatrixUtils;
-import org.apache.commons.math3.linear.RealMatrix;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+public class MatrixTest extends AbstractMatrixTest {
 
+    public double[][] m() {
+        return new double[][] {
+                {1, 2, 3},
+                {4, 5, 6},
+                {7, 8, 9}
+        };
+    }
 
-public class MatrixTest {
-	
-	/**
-	 * https://en.wikipedia.org/wiki/Cholesky_decomposition#Example
-	 * @return a symmetric positive definite matrix
-	 */
-	private double[][] symmetricPositiveDefinite() {
-		return new double[][] {
-			{4, 12, -16},
-			{12, 37, -43},
-			{-16, -43, 98}
-		};
-	}
-	
-	/**
-	 * @return lower triangular matrix in Cholesky Decomposition of above matrix
-	 */
-	private double[][] L() {
-		return new double[][] {
-			{2, 0, 0},
-			{6, 1, 0},
-			{-8, 5, 3}
-		};
-	}
-	
-	/**
-	 * https://en.wikipedia.org/wiki/QR_decomposition#Example_2
-	 * @return square matrix
-	 */
-	private double[][] square() {
-		return new double[][] {
-			{12, -51, 4},
-			{6, 167, -68},
-			{-4, 24, -41}
-		};
-	}
+    /**
+     * @return Same matrix as above, without row = 1 and column = 1
+     */
+    public double[][] subM() {
+        return new double[][] {
+                {1, 3},
+                {7, 9}
+        };
+    }
 
-	private double[][] Q() {
-		return new double[][] {
-			{-6d/7, 69d/175, -58d/175},
-			{-3d/7, -158d/175, 6d/175},
-			{2d/7, -6d/35, -33d/35}
-		};
-	}
-	
-	private double[][] R() {
-		return new double[][] {
-			{-14, -21, 14},
-			{0, -175, 70},
-			{0, 0, 35}
-		};		
-	}
-	
-	@Test
-	public void LDDecomposition() throws NegativeEigenvalueException {
-		Matrix S = new Matrix(symmetricPositiveDefinite());
-		CholeskyDecomposition choleskyDecomposition = new CholeskyDecomposition(S);
-		Matrix L = choleskyDecomposition.L();
-		
-		double[][] v = L.M;
-		assertSameMatrix(v, L());
-	}
+    @Test
+    public void deleteRowColumn() {
+        Matrix m = new Matrix(m());
+        assertSameMatrix(m.deleteRowColumn(1, 1), subM());
+    }
 
-	@Test
-	public void apacheMathLDDecomposition() {
-		RealMatrix realMatrix = MatrixUtils.createRealMatrix(symmetricPositiveDefinite());
-		org.apache.commons.math3.linear.CholeskyDecomposition choleskyDecomposition = new org.apache.commons.math3.linear.CholeskyDecomposition(realMatrix);
-		RealMatrix L = choleskyDecomposition.getL();
-		double[][] v = L.getData();
-		assertSameMatrix(v, L());
-	}
-	
-	/**
-	 * https://en.wikipedia.org/wiki/Spline_interpolation#Example
-	 */
-	@Test
-	public void tridiagonalSolve() {
-		double[] x = new double[] {-1, 0, 3};
-		double[] y = new double[] {0.5, 0, 3};
-		
-		double deltax0 = 1/(x[1] - x[0]);
-		double deltax1 = 1/(x[2] - x[1]);
-		
-		double[][] a = new double[][] {
-			{2*deltax0, deltax0, 0},
-			{deltax0, 2*(deltax0+deltax1), deltax1},
-			{0, deltax1, 2*deltax1}
-		};
-		
-		double deltay0 = y[1] - y[0];
-		double deltay1 = y[2] - y[1];
-		
-		double b0 = 3*deltay0*deltax0*deltax0;
-		double b1 = 3*deltay1*deltax1*deltax1;
-		double[] b = new double[] { b0, b0+b1, b1 };
-		
-		Matrix tridiagonal = new Matrix(a);
-		Vector k = tridiagonal.tridiagonalSolve(new Vector(b));
-		double[] expected = new double[] { -0.6875, -0.125, 1.5625 };
-		
-		assertSameRow(k.v, expected);
-	}
-	
-	@Test
-	public void qrDecomposition() {
-		Matrix M = new Matrix(square());
-		QRDecomposition qrDecomposition = new QRDecomposition(M);
-		assertSameMatrix(qrDecomposition.Q().M, Q());
-		assertSameMatrix(qrDecomposition.R().M, R());
-	}
-	
-	@Test
-	public void apacheMathQRDecomposition() {
-		RealMatrix realMatrix = MatrixUtils.createRealMatrix(square());
-		org.apache.commons.math3.linear.QRDecomposition qrDecomposition = new org.apache.commons.math3.linear.QRDecomposition(realMatrix);
-		assertSameMatrix(qrDecomposition.getQ().getData(), Q());
-		assertSameMatrix(qrDecomposition.getR().getData(), R());
-	}
+    @Test
+    public void determinant() {
+        double[][] data = subM();
+        double determinant = data[0][0]*data[1][1] - data[1][0]*data[0][1];
+        Matrix m = new Matrix(data);
+        Assertions.assertEquals(determinant, new CramerRule().determinant(m));
+    }
 
-	private void assertSameMatrix(double[][] v, double[][] expected) {
-		for (int i = 0; i < expected.length; i++) {
-			assertSameRow(v[i], expected[i]);
-		}
-	}
+    /**
+     * https://en.wikipedia.org/wiki/System_of_linear_equations#Cramer's_rule
+     */
+    public double[][] A() {
+        return new double[][] {
+                {1, 3, -2},
+                {3, 5, 6},
+                {2, 4, 3}
+        };
+    }
 
-	private void assertSameRow(double[] row1, double[] row2) {
-		assertArrayEquals(row1, row2, 0.001f);
-	}
+    public double[] b() {
+        return new double[]
+                {5, 7, 8};
+    }
+
+    public double[] x() {
+        return new double[]
+                {-15, 8, 2};
+    }
+
+    @Test
+    public void linearEquationSystem() {
+        Matrix A = new Matrix(A());
+        Vector b = new Vector(b());
+
+        LinearEquationSystem cramerRule = new CramerRule();
+        assertSameRow(cramerRule.solution(A, b), x());
+
+        LinearEquationSystem luDecomposition = new LUDecomposition();
+        assertSameRow(luDecomposition.solution(A, b), x());
+    }
 }
