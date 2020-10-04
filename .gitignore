@@ -6,3 +6,6 @@ build
 
 # Ignore IntelliJ module config
 Algo.iml
+
+# Ingore MacOXS temp file
+.DS_Store
