@@ -11,12 +11,12 @@ public class PrimeIterator implements Iterator<Integer>, PrimalityTest {
 	/**
 	 * Segment size
 	 */
-	public static final int SIZE = (int) Math.sqrt(Integer.MAX_VALUE);
+	public final int size;
 
 	/**
 	 * Buffer used for sieve.
 	 */
-	private final boolean[] composite = new boolean[SIZE];
+	private final boolean[] composite;
 
 	/**
 	 * List of primes in the first segment.
@@ -37,16 +37,24 @@ public class PrimeIterator implements Iterator<Integer>, PrimalityTest {
 	 * Current prime index, starting at 0.
 	 */
 	private int current;
-	
+
 	/**
 	 * Index of the first prime in the current segment.
 	 */
 	private int start;
-	
+
 	/**
 	 * Flag to indicate we reached the last segment.
 	 */
 	private boolean isLastSegment;
+
+	public PrimeIterator(int max) {
+		if (max > Math.sqrt(Integer.MAX_VALUE)) {
+			throw new RuntimeException("Sieve Segment size is too large");
+		}
+		size = max;
+		composite = new boolean[size];
+	}
 
 	public boolean hasNext() {
 		if (current == 0) {
@@ -54,45 +62,45 @@ public class PrimeIterator implements Iterator<Integer>, PrimalityTest {
 		} else if ((current-start) == currentPrimes.size() && ! isLastSegment) {
 			segmentedSieve();
 		}
-		
+
 		return (current-start) < currentPrimes.size();
 	}
 
 	public Integer next() {
 		return currentPrimes.get((current++) - start);
 	}
-	
+
 	public boolean isPrime(int n) {
 		return ! hasPrimeDivisor(n);
 	}
-	
+
 	private void sieve() {
-		for (int i = 2; i < SIZE; i++) {
+		for (int i = 2; i < size; i++) {
 			if (! composite[i]) {
 				firstPrimes.add(i);
 
-				for (int k = i*i; k < SIZE; k += i) {
+				for (int k = i*i; k < size; k += i) {
 					composite[k] = true;
 				}
 			}
 		}
 
-    	last = SIZE;
+    	last = size;
 		start = 0;
 		currentPrimes.addAll(firstPrimes);
 	}
-	
+
 	private void segmentedSieve() {
 		currentPrimes.clear();
 
 		int min = last;
 
-		int max = min + SIZE;
-		if (max > Integer.MAX_VALUE - SIZE) {
+		int max = min + size;
+		if (max > size*size - size) {
 			isLastSegment = true;
 		}
 
-    	for (int i = 0; i < SIZE; i++) {
+    	for (int i = 0; i < size; i++) {
     		composite[i] = false;
     	}
 
@@ -115,7 +123,7 @@ public class PrimeIterator implements Iterator<Integer>, PrimalityTest {
     		}
     	}
 
-    	for (int i = 0; i < SIZE; i++) {
+    	for (int i = 0; i < size; i++) {
     		if (! composite[i] && min <= Integer.MAX_VALUE-i) {
     			currentPrimes.add(min+i);
     		}

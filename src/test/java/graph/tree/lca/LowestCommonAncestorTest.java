@@ -1,7 +1,7 @@
 package graph.tree.lca;
 
 import com.google.common.collect.ImmutableList;
-import graph.tree.Edge;
+import graph.Edge;
 import graph.tree.Tree;
 import graph.tree.TreeNode;
 import org.junit.jupiter.api.Test;

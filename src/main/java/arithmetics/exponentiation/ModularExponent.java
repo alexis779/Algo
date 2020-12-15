@@ -38,7 +38,17 @@ public class ModularExponent {
 	 * @param m
 	 * @return a * b % m
 	 */
-	private int multiply(int a, int b, int m) {
+	public int multiply(int a, int b, int m) {
 		return (int) ((1l * a * b) % m);
+	}
+
+	/**
+	 *
+	 * @param a
+	 * @param m
+	 * @return a^2 % m
+	 */
+	public int square(int a, int m) {
+		return multiply(a, a, m);
 	}
 }

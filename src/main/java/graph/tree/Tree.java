@@ -1,5 +1,7 @@
 package graph.tree;
 
+import graph.Edge;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,8 +22,8 @@ public class Tree {
         }
 
         for (Edge edge: edges) {
-            adjacency.get(edge.u).add(edge.v);
-            adjacency.get(edge.v).add(edge.u);
+            adjacency.get(edge.x).add(edge.y);
+            adjacency.get(edge.y).add(edge.x);
         }
     }
 

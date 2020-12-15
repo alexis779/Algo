@@ -1,33 +1,20 @@
-package graph;
+package graph.mst;
+
+import graph.Edge;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Scanner;
 
 /**
  * Kruskal algorithm to find a Minimal Spanning Tree on an undirected graph.
  *
+ * Add all edges in a min heap.
+ * Start with a forest where all vertices are disconnected.
+ * For each each, join the 2 ends' connected components if they are distinct.
+ *
  */
 public class KruskalMST {
-	class Edge implements Comparable<Edge> {
-		int x, y, w;
-		
-		Edge(int x, int y, int r) {
-			this.x = x;
-			this.y = y;
-			this.w = r;
-		}
-
-		public int compareTo(Edge edge) {
-			return w - edge.w;
-		}
-		
-		@Override
-		public String toString() {
-			return String.format("(%d-%d) (%d)", x, y, w);
-		}
-	}
-	
 	/**
 	 * Disjoint-Set
 	 */
@@ -72,34 +59,16 @@ public class KruskalMST {
 	int N;
 
 	/**
-	 * Number of edges.
-	 */
-	int M;
-
-	/**
 	 * List of edges.
 	 */
-	List<Edge> edges;
+	List<Edge> edges = new ArrayList<>();
 
-	public KruskalMST(int N, int M) {
-		this.N = N;
-		this.M = M;
-		edges = new ArrayList<>(M);
-	}
+	public KruskalMST(List<List<Edge>> adjacency) {
+		N = adjacency.size();
 
-	public static void main(String[] args) throws Exception {
-		Scanner scanner = new Scanner(System.in);
-		int N = scanner.nextInt();
-		int M = scanner.nextInt();
-		KruskalMST solution = new KruskalMST(N, M);
-		for (int i = 0; i < M; i++) {
-			int x = scanner.nextInt();
-			int y = scanner.nextInt();
-			int w = scanner.nextInt();
-			solution.addEdge(x, y, w);
-		}
-		scanner.close();
-		System.out.println(solution.mstWeight());
+		adjacency.stream()
+				.flatMap(List::stream)
+				.forEach(edges::add);
 	}
 
 	/**
@@ -126,15 +95,5 @@ public class KruskalMST {
 		}
 		
 		return weight;
-	}
-
-	/**
-	 * 
-	 * @param x
-	 * @param y
-	 * @param w
-	 */
-	public void addEdge(int x, int y, int w) {
-		edges.add(new Edge(x, y, w));
 	}
 }

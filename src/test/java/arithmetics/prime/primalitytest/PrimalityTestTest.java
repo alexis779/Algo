@@ -5,11 +5,7 @@ import org.junit.jupiter.api.Test;
 
 
 public class PrimalityTestTest {
-	private static final int PRIME_POS = 100000000;
-	private static final int PRIME = 2038074743;
-	
-	private static final int PRIME_MAX = 1000000000;
-	private static final int COUNT = 50847534;
+	private static final int MAX = 1000;
 
 	@Test
 	public void isPrime() {
@@ -21,9 +17,12 @@ public class PrimalityTestTest {
 
 	@Test
 	public void primes() {
-		PrimeIterator primeIterator = new PrimeIterator();
-		int posPrime = findPrime(primeIterator, PRIME_POS);
-		Assertions.assertEquals(PRIME, posPrime, String.format("Prime at position %d is %d", PRIME_POS, PRIME));
+		int primePos = 100;
+		int prime = 541;
+
+		PrimeIterator primeIterator = new PrimeIterator(MAX);
+		int posPrime = findPrime(primeIterator, primePos);
+		Assertions.assertEquals(prime, posPrime, String.format("Prime at position %d is %d", primePos, prime));
 		Assertions.assertTrue(primeIterator.isPrime(posPrime), "Iterator iterates over primes.");
 	}
 	
@@ -32,12 +31,15 @@ public class PrimalityTestTest {
 	 */
 	@Test
 	public void primeCounting() {
-		PrimeIterator primeIterator = new PrimeIterator();
+		int primeMax = 100;
+		int count = 25;
+
+		PrimeIterator primeIterator = new PrimeIterator(MAX);
 		int pi = 0;
-		while (primeIterator.hasNext() && primeIterator.next() <= PRIME_MAX) {
+		while (primeIterator.hasNext() && primeIterator.next() <= primeMax) {
 			pi++;
 		}
-		Assertions.assertEquals(COUNT, pi, String.format("pi(%d) = %d", PRIME_MAX, COUNT));
+		Assertions.assertEquals(count, pi, String.format("pi(%d) = %d", primeMax, count));
 	}
 
 	private int findPrime(PrimeIterator primeIterator, int posTarget) {
