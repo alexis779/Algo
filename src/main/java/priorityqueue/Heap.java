@@ -1,6 +1,7 @@
 package priorityqueue;
 
-import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -8,7 +9,7 @@ import java.util.logging.Logger;
  * @param <T>
  */
 public class Heap<T> implements PriorityQueue<T> {
-	private final static Logger LOGGER = Logger.getLogger(Heap.class.getName());
+	private final static Logger LOG = LoggerFactory.getLogger(Heap.class);
 	
 	T[] values;
 	
@@ -102,7 +103,7 @@ public class Heap<T> implements PriorityQueue<T> {
 	 */
 	public void add(T t) {
 		if (this.size == this.values.length-1) {
-			LOGGER.warning("Can not add " + t);
+			LOG.warn("Can not add " + t);
 			return;
 		}
 		this.size++;
@@ -121,7 +122,7 @@ public class Heap<T> implements PriorityQueue<T> {
 
 	public T poll() {
 		if (this.size == 0) {
-			LOGGER.warning("Heap is empty");
+			LOG.warn("Heap is empty");
 			return null;
 		}
 		return this.values[1];
@@ -129,7 +130,7 @@ public class Heap<T> implements PriorityQueue<T> {
 
 	public T pop() {
 		if (this.size == 0) {
-			LOGGER.warning("Heap is empty");
+			LOG.warn("Heap is empty");
 			return null;
 		}
 		
@@ -142,7 +143,7 @@ public class Heap<T> implements PriorityQueue<T> {
 
 	public void decreaseKey(int i, T t) {
 		if (! compareKeys(t, this.values[i])) {
-			LOGGER.warning("You can only decrease the key");
+			LOG.warn("You can only decrease the key");
 			return;
 		}
 		this.values[i] = t;

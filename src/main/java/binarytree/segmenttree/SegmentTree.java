@@ -1,9 +1,17 @@
 package binarytree.segmenttree;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
 /**
  * Range Minimum Query.
  */
 public abstract class SegmentTree<T> {
+    private static final Logger LOG = LoggerFactory.getLogger(SegmentTree.class);
+
     /**
      * Number of elements in the original array
      */
@@ -215,10 +223,10 @@ public abstract class SegmentTree<T> {
     }
 
     private void print(int i, int nodeStart, int nodeEnd, int depth) {
-        for (int j = 0; j < depth; j++) {
-            System.out.print(" ");
-        }
-        System.out.println(String.format("%s [%d-%d]", nodes[i], nodeStart, nodeEnd));
+        final String indent = IntStream.range(0, depth)
+              .mapToObj(k -> " ")
+              .collect(Collectors.joining());
+        LOG.info("{} {} [{}-{}]", indent, nodes[i], nodeStart, nodeEnd);
 
         if (nodeStart >= nodeEnd) {
             return;

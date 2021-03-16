@@ -2,6 +2,8 @@ package graph.tree;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +12,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class SubtreeGeneratorTest {
 
+    private static final Logger LOG = LoggerFactory.getLogger(SubtreeGeneratorTest.class);
+
     Tree tree;
     List<TreeNode> nodes;
     List<List<Integer>> adjacency;
@@ -17,14 +21,14 @@ public class SubtreeGeneratorTest {
     @Test
     public void subtrees() {
         SubtreeGenerator subtreeGenerator = new SubtreeGenerator(tree);
-        System.out.println(String.format("DefaultTreeNode List %s", tree.getNodes()));
-        System.out.println(String.format("Adjacency List %s", tree.getAdjacency()));
+        LOG.info("DefaultTreeNode List {}", tree.getNodes());
+        LOG.info("Adjacency List {}", tree.getAdjacency());
         List<Tree> subtrees = subtreeGenerator.subtrees();
         assertEquals( 17, subtrees.size(), "Number of subtrees in the tree");
-        System.out.println("Subtree List:");
+        LOG.info("Subtree List:");
         for (Tree subtree: subtrees) {
             subtree.print();
-            System.out.println();
+            LOG.info("");
         }
     }
 

@@ -3,10 +3,10 @@ package recurrence;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.logging.Logger;
 
 import arithmetics.Arithmetics;
-import arithmetics.Arithmetics.Pair;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Use Berlekamp–Massey algorithm to compute the Minimal Polynomial of a linear recurrent sequence in a field.
@@ -16,7 +16,7 @@ import arithmetics.Arithmetics.Pair;
  */
 public class MinimalPolynomial {
 
-	protected final static Logger LOGGER = Logger.getLogger(MinimalPolynomial.class.getName());
+	private final static Logger LOG = LoggerFactory.getLogger(MinimalPolynomial.class);
 
 	/**
 	 * Prime number, to define a field Z/pZ.
@@ -110,7 +110,7 @@ public class MinimalPolynomial {
 		moduloIntToSigned(C);
 
 		if (C.size() >= S.size() / 2 - 2) {
-			LOGGER.warning("Sequence is not long enough" + S);
+			LOG.warn("Sequence is not long enough" + S);
 		}
 
 		return L;

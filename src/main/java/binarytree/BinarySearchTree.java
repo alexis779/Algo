@@ -1,13 +1,13 @@
 package binarytree;
 import java.util.Enumeration;
-import java.util.logging.Logger;
 
 import binarytree.redblacktree.RedBlackTreeNode.Color;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 public class BinarySearchTree<T> implements BinaryTree<T> {
-	protected final static Logger LOGGER = Logger.getLogger(BinarySearchTree.class.getName());
+	protected static final Logger LOG = LoggerFactory.getLogger(BinarySearchTree.class);
 	
 	private static final String NEW_LINE = System.getProperty("line.separator");
 	private static final String TAB = "\t";
@@ -28,7 +28,7 @@ public class BinarySearchTree<T> implements BinaryTree<T> {
 		if (node.getLeft() != getNil()) {
 			print(node.getLeft());
 		}
-		LOGGER.info(node.toString());
+		LOG.info(node.toString());
 		if (node.getRight() != getNil()) {
 			print(node.getRight());
 		}

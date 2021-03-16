@@ -3,16 +3,17 @@ package binarytree;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.logging.Logger;
 
 
 public class BinaryTreeTest {
-	public final static Logger LOGGER = Logger.getLogger(BinaryTreeTest.class.getName());
+	private final static Logger LOG = LoggerFactory.getLogger(BinaryTreeTest.class);
 	public static final Integer[] INTEGERS = new Integer[] {
 		1, 4, 2, 6, 9, 15
 	};
@@ -20,7 +21,7 @@ public class BinaryTreeTest {
 	protected BinaryTree<Integer> binaryTree;
 	
 	protected void setBinaryTree() {
-		binaryTree = new BinarySearchTree<Integer>();
+		binaryTree = new BinarySearchTree<>();
 	}
 
 	@BeforeEach
@@ -58,7 +59,7 @@ public class BinaryTreeTest {
 		binarySearchTree.print(binarySearchTree.getRoot());
 		
 		// graphviz description
-		LOGGER.info(binarySearchTree.graphvizGenerate());		
+		LOG.info(binarySearchTree.graphvizGenerate());
 
 		// balance BST
 		binarySearchTree.balance();
@@ -66,7 +67,7 @@ public class BinaryTreeTest {
 	
 	@Test
 	public void treeSet() {
-		Set<Integer> set = new TreeSet<Integer>();
+		Set<Integer> set = new TreeSet<>();
 		Arrays.stream(INTEGERS)
 				.forEach(set::add);
 

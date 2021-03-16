@@ -6,8 +6,9 @@ import linear.algebra.NegativeEigenvalueException;
 import linear.algebra.QRDecomposition;
 import linear.algebra.Vector;
 import org.apache.commons.math3.linear.MatrixUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.util.logging.Logger;
 
 /**
  * Linear Least Squares
@@ -19,7 +20,7 @@ import java.util.logging.Logger;
  * 
  */
 public class LinearLeastSquares {
-	private final static Logger LOGGER = Logger.getLogger(LinearLeastSquares.class.getName());
+	private final static Logger LOG = LoggerFactory.getLogger(LinearLeastSquares.class);
 
 	private Vector beta;
 	private Double rootMeanSquareError;
@@ -40,10 +41,10 @@ public class LinearLeastSquares {
 	private void qrDecomposition() {
 		QRDecomposition qrDecomposition = new QRDecomposition(this.X.gramian());
 		this.beta = qrDecomposition.R().upperTriangularSolve(qrDecomposition.Q().transpose().multiply(this.X.transpose()).multiply(this.y));
-		LOGGER.info(this.beta.toString());
+		LOG.info(this.beta.toString());
 		org.apache.commons.math3.linear.QRDecomposition apacheQrDecomposition = new org.apache.commons.math3.linear.QRDecomposition(MatrixUtils.createRealMatrix(this.X.gramian().M));
 		Vector apacheBeta = new Matrix(apacheQrDecomposition.getR().getData()).upperTriangularSolve(new Matrix(apacheQrDecomposition.getQT().getData()).multiply(this.X.transpose()).multiply(this.y));
-		LOGGER.info(apacheBeta.toString());;
+		LOG.info(apacheBeta.toString());;
 	}
 
 	/**

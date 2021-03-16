@@ -34,13 +34,7 @@ public class Vector {
 
 	@Override
 	public String toString() {
-		return toString(v);
-	}
-
-	public static String toString(double[] d) {
-		return Arrays.stream(d)
-				.mapToObj(Double::toString)
-				.collect(Collectors.joining(" "));
+		return Arrays.toString(v);
 	}
 
 	@Override

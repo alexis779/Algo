@@ -65,7 +65,7 @@ public class Matrix {
 	@Override
 	public String toString() {
 		return Arrays.stream(M)
-				.map(Vector::toString)
+				.map(Arrays::toString)
 				.collect(Collectors.joining("\n"));
 	}
 
