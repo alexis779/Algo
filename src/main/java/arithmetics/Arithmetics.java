@@ -28,29 +28,16 @@ public class Arithmetics {
 	}
 
 	public static class Pair {
-		private long u, v;
+		public long u, v;
 
 		public Pair(long u, long v) {
 			this.u = u;
 			this.v = v;
 		}
 
-		public void multiply(int n) {
-			u *= n;
-			v *= n;
-		}
-
 		@Override
 		public String toString() {
 			return String.format("(%d,%d)", u, v);
-		}
-
-		public long u() {
-			return u;
-		}
-
-		public long v() {
-			return v;
 		}
 	}
 
@@ -86,10 +73,5 @@ public class Arithmetics {
 		}
 
 		return new Pair(old_s, old_t);
-	}
-
-	public static long inverse(long u, long mod) {
-		Pair pair = bezoutCoefficients(u, mod);
-		return ((pair.u() % mod) + mod) % mod;
 	}
 }

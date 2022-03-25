@@ -1,16 +1,16 @@
-package arithmetics.exponentiation;
+package arithmetics;
 
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
-public class ModularExponentTest {
+public class ModularArithmeticsTest {
 
 
 	@Test
 	public void modularExponent() {
-		assertEquals(81, new ModularExponent().value(3, 4, 100));
+		assertEquals(81, new ModularArithmetics(100).exponent(3, 4));
 	}
 
 }

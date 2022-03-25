@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import arithmetics.Arithmetics;
+import arithmetics.ModularArithmetics;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,9 +33,13 @@ public class MinimalPolynomial {
 	 */
 	private List<Integer> C;
 
+	private final ModularArithmetics modularArithmetics;
+
 	public MinimalPolynomial(int P, List<Integer> sequence) {
 		this.P = P;
 		this.S = sequence;
+
+		modularArithmetics = new ModularArithmetics(P);
 
 		if (sequence.size() % 2 == 1) {
 			sequence.remove(sequence.size() - 1);
@@ -140,7 +144,7 @@ public class MinimalPolynomial {
 	 * @return the inverse of a
 	 */
 	private long inverse(int a) {
-		return Arithmetics.inverse(a, P);
+		return modularArithmetics.inverse(a);
 	}
 
 	/**

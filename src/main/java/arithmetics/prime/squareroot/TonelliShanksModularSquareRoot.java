@@ -1,6 +1,6 @@
 package arithmetics.prime.squareroot;
 
-import arithmetics.exponentiation.ModularExponent;
+import arithmetics.ModularArithmetics;
 
 import java.util.Optional;
 import java.util.stream.IntStream;
@@ -15,10 +15,11 @@ public class TonelliShanksModularSquareRoot implements ModularSquareRoot {
     */
    int p;
 
-   final ModularExponent modularExponent = new ModularExponent();
+   final ModularArithmetics modularArithmetics;
 
    public TonelliShanksModularSquareRoot(int p) {
       this.p = p;
+      modularArithmetics = new ModularArithmetics(p);
       initVariables();
    }
 
@@ -111,14 +112,14 @@ public class TonelliShanksModularSquareRoot implements ModularSquareRoot {
    }
 
    private int modularExponent(int b, int e) {
-      return modularExponent.value(b, e, p);
+      return (int) modularArithmetics.exponent(b, e);
    }
 
    private int square(int a) {
-      return modularExponent.square(a, p);
+      return modularArithmetics.square(a);
    }
 
    private int multiply(int a, int b) {
-      return modularExponent.multiply(a, b, p);
+      return (int) modularArithmetics.multiply(a, b);
    }
 }
