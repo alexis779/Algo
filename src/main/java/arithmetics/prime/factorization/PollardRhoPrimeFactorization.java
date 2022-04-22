@@ -25,12 +25,12 @@ public class PollardRhoPrimeFactorization {
 	 * Factorization
 	 * Keys are the prime factors, values the respective exponents.
 	 */
-	private Map<BigInteger, Integer> factors = new HashMap<BigInteger, Integer>();
+	private Map<BigInteger, Integer> factors = new HashMap<>();
     
-    /**
-     * @param n	The number we are computing the prime factorization of.
-     */
-    public PollardRhoPrimeFactorization(BigInteger n) {
+   /**
+    * @param n	The number we are computing the prime factorization of.
+    */
+   public PollardRhoPrimeFactorization(BigInteger n) {
     	factor(n);
 	}
 
@@ -76,40 +76,5 @@ public class PollardRhoPrimeFactorization {
 			exponent = 0;
 		}
 		this.factors.put(n, exponent+1);
-	}
-
-	public List<BigInteger> divisors() {
-		List<BigInteger> divisors = new ArrayList<BigInteger>();
-		Set<Entry<BigInteger, Integer>> entrySet = this.factors.entrySet();
-		List<Entry<BigInteger, Integer>> entryList = new ArrayList<Entry<BigInteger, Integer>>(entrySet);
-		addDivisors(divisors, entryList, 0, ONE);
-		Collections.sort(divisors);
-		return divisors;
-	}
-
-	private void addDivisors(List<BigInteger> divisors, List<Entry<BigInteger, Integer>> entryList, int entryPos, BigInteger n) {
-		if (entryPos == entryList.size()) {
-			divisors.add(n);
-			return;
-		}
-		
-		addDivisors(divisors, entryList, entryPos+1, n);
-		Entry<BigInteger, Integer> entry = entryList.get(entryPos);
-		for (int exponent = 0; exponent < entry.getValue(); exponent++) {
-			n = n.multiply(entry.getKey());
-			addDivisors(divisors, entryList, entryPos+1, n);
-		}
-	}
-
-	public int exponentSum() {
-		return exponentSum(factors);
-	}
-
-	private int exponentSum(Map<BigInteger, Integer> factors) {
-		int sum = 0;
-		for (int exponent: factors.values() ) {
-			sum += exponent;
-		}
-		return sum;
 	}
 }
