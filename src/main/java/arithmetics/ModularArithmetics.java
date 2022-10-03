@@ -70,7 +70,7 @@ public class ModularArithmetics {
 	 * @param b
 	 * @return a - b % m
 	 */
-	public int substract(int a, int b) {
+	public int subtract(int a, int b) {
 		return positive(a-b);
 	}
 
@@ -126,4 +126,19 @@ public class ModularArithmetics {
 
 		return old_s;
 	}
+
+	public int divide(int a, int b) {
+		return multiply(a, inverse(b));
+	}
+
+	/**
+	 * Fermat's little theorem:
+	 * 		a^{m-1} = 1
+	 *
+	 * @param a
+	 * @return
+	 */
+    public int inversePrime(int a) {
+		return exponent(a, m-2);
+    }
 }

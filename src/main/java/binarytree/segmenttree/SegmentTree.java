@@ -7,7 +7,11 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 /**
- * Range Minimum Query.
+ * Range Query.
+ *  - minimum
+ *  - maximum
+ *  - sum
+ *  - count
  */
 public abstract class SegmentTree<T> {
     private static final Logger LOG = LoggerFactory.getLogger(SegmentTree.class);

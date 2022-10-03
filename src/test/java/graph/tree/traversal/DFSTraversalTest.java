@@ -7,6 +7,8 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import static java.util.Arrays.asList;
 
@@ -14,22 +16,29 @@ public class DFSTraversalTest {
 
    private final static Logger LOG = LoggerFactory.getLogger(DFSTraversalTest.class);
 
-   private final DFSTraversal dfsTraversal = new DFSTraversal();
-
    @Test
    public void dfs() {
       List<List<Integer>> adjacency = new ArrayList<>();
-      adjacency.add(0, asList(1));
-      adjacency.add(1, asList(2, 3));
-      adjacency.add(2, asList(4));
-      adjacency.add(3, asList());
-      adjacency.add(4, asList());
+      adjacency.add(0, List.of(1));
+      adjacency.add(1, List.of(2, 3));
+      adjacency.add(2, List.of(4));
+      adjacency.add(3, List.of());
+      adjacency.add(4, List.of());
 
       List<Integer> nodes = new ArrayList<>();
-      dfsTraversal.traverse(adjacency, (parent, children) -> {
-         nodes.add(parent);
-         LOG.info(String.format("%d: %s", parent, children));
+      List<Integer> parents = IntStream.range(0, 5)
+              .map(i -> -1)
+              .boxed()
+              .collect(Collectors.toList());
+
+      Traversal traversal = new AdjacencyListDFSTraversal(adjacency);
+      traversal.traverse((current, parent, children) -> {
+         nodes.add(current);
+         parents.set(current, parent);
+         LOG.info(String.format("%d: %s", current, children));
       });
+
       Assertions.assertEquals(asList(3, 4, 2, 1, 0), nodes, "Post-order traversal");
+      Assertions.assertEquals(asList(-1, 0, 1, 1, 2), parents, "Parent list");
    }
 }
