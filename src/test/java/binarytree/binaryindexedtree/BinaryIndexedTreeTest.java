@@ -16,7 +16,7 @@ public class BinaryIndexedTreeTest {
      */
     @Test
     public void lowerOrEqualTo() {
-        BinaryIndexedTree bit = new BinaryIndexedTree(10);
+        AbstractBinaryIndexedTree bit = new SumBinaryIndexedTree(10);
         bit.change(4, 1);
         bit.change(3, 1);
         bit.change(8, 1);
@@ -30,7 +30,7 @@ public class BinaryIndexedTreeTest {
 
     @Test
     public void strictlyLower() {
-        BinaryIndexedTree bit = new BinaryIndexedTree(10);
+        AbstractBinaryIndexedTree bit = new SumBinaryIndexedTree(10);
         bit.change(4, 1);
         bit.change(3, 1);
         bit.change(8, 1);
@@ -49,7 +49,7 @@ public class BinaryIndexedTreeTest {
         int max = a.stream().mapToInt(Integer::intValue).max().getAsInt();
         int min = a.stream().mapToInt(Integer::intValue).min().getAsInt();
 
-        BinaryIndexedTree bit = new BinaryIndexedTree(1+max-min);
+        AbstractBinaryIndexedTree bit = new SumBinaryIndexedTree(1+max-min);
         a.forEach(i -> bit.change(1+max-i, 1));
 
         int x;
@@ -59,5 +59,19 @@ public class BinaryIndexedTreeTest {
         assertEquals(1, bit.get(1+max-x));
         x = min;
         assertEquals(a.size(), bit.get(1+max-x));
+    }
+
+    @Test
+    public void countQuery() {
+        AbstractBinaryIndexedTree bit = new SumBinaryIndexedTree(10);
+        bit.change(4, 1);
+        bit.change(3, 1);
+        bit.change(8, 1);
+
+        assertEquals(3, bit.get(9));
+        assertEquals(2, bit.get(4));
+
+        bit.change(5, 1);
+        assertEquals(4, bit.get(8));
     }
 }

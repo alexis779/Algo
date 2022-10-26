@@ -1,5 +1,6 @@
 package binarytree.segmenttree;
 
+import com.google.common.base.Preconditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -7,14 +8,17 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 /**
- * Range Query.
+ * A segment tree allows to run range query for operations such as
  *  - minimum
  *  - maximum
  *  - sum
  *  - count
+ *
+ *  Array should be 1-indexed. Elements are stored as leaves in a compact binary tree.
+ *  Both query & update are in O(log(n)). So we can build the segment tree ouf of an array in O(n log(n)).
  */
-public abstract class SegmentTree<T> {
-    private static final Logger LOG = LoggerFactory.getLogger(SegmentTree.class);
+public abstract class AbstractSegmentTree<T> {
+    private static final Logger LOG = LoggerFactory.getLogger(AbstractSegmentTree.class);
 
     /**
      * Number of elements in the original array
@@ -40,7 +44,7 @@ public abstract class SegmentTree<T> {
      */
     T[] update;
 
-    public SegmentTree(T[] a) {
+    public AbstractSegmentTree(T[] a) {
         this.a = a;
         this.n = this.a.length - 1;
         build();
@@ -97,7 +101,10 @@ public abstract class SegmentTree<T> {
      * @return the result of the range query in interval [i,j]
      */
     public T rangeQuery(int i, int j) {
-        assert 1 <= i && i <= j && j <= n;
+        if (!(1 <= i && i <= j && j <= n)) {
+            throw new RuntimeException();
+        }
+        Preconditions.checkArgument(1 <= i && i <= j && j <= n);
         return search(1, 1, n, i, j);
     }
 

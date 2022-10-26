@@ -10,6 +10,10 @@ public class ModularArithmetics {
 		this.m = m;
 	}
 
+	public int getMod() {
+		return m;
+	}
+
 	/**
 	 * Right-to-left binary method.
 	 *
