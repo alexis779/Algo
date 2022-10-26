@@ -1,8 +1,9 @@
 plugins {
     id 'java-library'
+    id 'maven-publish'
 }
 
-group 'org.programming'
+group 'org.techvineyard'
 version '1.0'
 
 repositories {
@@ -21,4 +22,46 @@ dependencies {
 
 test {
     useJUnitPlatform()
+}
+
+publishing {
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/alexis779/Algo")
+            credentials {
+                username = "alexis779"
+                password = System.getenv("TOKEN")
+            }
+        }
+    }
+    publications {
+        mavenPublication(MavenPublication) {
+            from components.java
+
+            pom {
+                name = 'Tech Vineyard Algo library'
+                description = 'A Java library for Algo & Data Structures'
+                url = 'https://techvineyard.blogspot.com/'
+                licenses {
+                    license {
+                        name = 'The Apache License, Version 2.0'
+                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'alexis779'
+                        name = 'Alexis'
+                        email = 'alexis@apache.org'
+                    }
+                }
+                scm {
+                    connection = 'scm:git:git://github.com/alexis779/Algo.git'
+                    developerConnection = 'scm:git:ssh://github.com/alexis779/Algo.git'
+                    url = 'https://github.com/alexis779/Algo'
+                }
+            }
+        }
+    }
 }
