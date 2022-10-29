@@ -39,6 +39,9 @@ publishing {
         mavenPublication(MavenPublication) {
             from components.java
 
+            groupId = 'io.github.alexis779'
+            artifactId = 'algo'
+
             pom {
                 name = 'Tech Vineyard Algo library'
                 description = 'A Java library for Algo & Data Structures'
