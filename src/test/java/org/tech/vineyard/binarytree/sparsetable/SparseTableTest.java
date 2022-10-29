@@ -23,12 +23,12 @@ public class SparseTableTest {
         };
 
         // O(n) complexity
-        Integer sum = Arrays.stream(a)
+        int sum = Arrays.stream(a)
                 .reduce(rangeSum::query)
                 .get();
 
         // O(log(n)) complexity
-        Integer sumQuery = rangeSum.rangeQuery(0, a.length-1);
+        int sumQuery = rangeSum.rangeQuery(0, a.length-1);
 
         assertEquals(sum, sumQuery);
     }
