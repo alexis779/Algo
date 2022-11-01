@@ -82,7 +82,7 @@ This can be used for *sum*, *count* operations for a mix of read/write queries,
 
 #### Segment Tree
 
-This can be used for *sum*, *count* but *min*, *max* as well for a mix of read/write queries,
+This can be used for *sum*, *count* and *min*, *max* as well for a mix of read/write queries,
 
 ```Java
         Integer[] a = new Integer[] { 0, 1, 2, 1, 3, 2 };
@@ -130,7 +130,7 @@ The jar is available for [download](https://github.com/alexis779/Algo/packages/1
 
 ## Build
 
-[Gradle](https://docs.gradle.org/current/userguide/userguide.html) build system to compile the source, run unit tests and package the code.
+[Gradle](https://docs.gradle.org/current/userguide/userguide.html) is the build system. It compiles the source, runs unit tests and packages the code into a jar file.
 
 ```
 $ gradle build
