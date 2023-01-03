@@ -13,7 +13,7 @@ You can always write a simple solution to the problem, but naive implementation 
 
 You need more advanced packages than what's available in the Java Runtime Environment. JRE lacks more exotic yet important constructs that perform ad-hoc queries efficiently.
 
-This library is meant to provide complex implementations that solves the problem more efficiently than brute-force approach.
+This library is meant to provide complex implementations that solve the problem more efficiently than brute-force approach.
 
 It normalizes recurrent patterns for re-usability purpose. It enables easy integration to be used as a black box. By skipping the low level implementation of the textbook algorithms, you can focus your efforts on the problem at hand.
 
@@ -40,6 +40,19 @@ Assuming a graph representation via a list of adjacency lists, you can perform a
          LOG.info(String.format("Visiting node %d", current));
       });
 
+```
+
+### All Pair Shortest Path
+
+You can use Floyd-Warshall algorithm to compute the shortest path distance between all pairs of nodes.
+
+```Java
+        // Build adjacency matrix
+        int[][] weights = ...
+        AllPairShortestPath allPairShortestPath = new FloydAllPairShortestPath(weights);
+
+        // compute distance matrix
+        int[][] distances = allPairShortestPath.distances();
 ```
 
 ## Data Structures
@@ -126,7 +139,22 @@ For example, compute `m^e [p]` via *logarithmic exponentiation*, where `m` is a 
 
 ## Download
 
-The jar is available for [download](https://github.com/alexis779/Algo/packages/1693117) via Github Packages.
+The jar is available from Maven repository
+- groupId: io.github.alexis779
+- artifactId: algo
+- version: 1.0
+
+With gradle, import it in *build.gradle* via:
+
+```
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'io.github.alexis779:algo:1.0'
+}
+```
 
 ## Build
 

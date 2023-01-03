@@ -28,14 +28,11 @@ public class HilbertCurve {
      */
     public long hilbertCurveOrder(int x, int y) {
         long d = 0;
-        for (int s = maxn >> 1; s > 0; s >>= 1)
-        {
+        for (int s = maxn >> 1; s > 0; s >>= 1) {
             int rx = x & s, ry = y & s;
             d += 1L * s * s * ((3 * rx) ^ ry);
-            if (ry == 0)
-            {
-                if (rx != 0)
-                {
+            if (ry == 0) {
+                if (rx != 0) {
                     x = maxn-1 - x;
                     y = maxn-1 - y;
                 }
