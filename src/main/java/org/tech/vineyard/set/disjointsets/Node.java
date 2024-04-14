@@ -1,4 +1,4 @@
-package org.tech.vineyard.disjointsets;
+package org.tech.vineyard.set.disjointsets;
 
 /**
  * Disjoint Set Member

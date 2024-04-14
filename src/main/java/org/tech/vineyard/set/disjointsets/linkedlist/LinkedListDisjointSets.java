@@ -1,8 +1,8 @@
-package org.tech.vineyard.disjointsets.linkedlist;
+package org.tech.vineyard.set.disjointsets.linkedlist;
 
-import org.tech.vineyard.disjointsets.DisjointSet;
-import org.tech.vineyard.disjointsets.DisjointSets;
-import org.tech.vineyard.disjointsets.Node;
+import org.tech.vineyard.set.disjointsets.DisjointSet;
+import org.tech.vineyard.set.disjointsets.DisjointSets;
+import org.tech.vineyard.set.disjointsets.Node;
 
 import java.util.HashSet;
 import java.util.Set;
